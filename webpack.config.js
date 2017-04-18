@@ -1,0 +1,24 @@
+const webpack = require('webpack')
+
+module.exports = {
+  entry: {
+    'optimizely-singleton': './index.js',
+    'optimizely-singleton.min': './index.js'
+  },
+  module: {
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loaders: 'babel-loader'
+    }]
+  },
+  output: {
+    filename: './dist/[name].js',
+    libraryTarget: 'umd'
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    })
+  ]
+}

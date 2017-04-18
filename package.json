@@ -1,0 +1,32 @@
+{
+  "name": "optimizely-singleton",
+  "version": "1.0.0",
+  "description": "Singleton wrapper around the OptimizelyX JS SDK",
+  "main": "./dist/optimizely-singleton.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghigo/optimizely-singleton.git"
+  },
+  "keywords": [
+    "optimizely",
+    "optimizelyX"
+  ],
+  "author": "Marco Sgrignuoli <ghigo@strayorange.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ghigo/optimizely-singleton/issues"
+  },
+  "homepage": "https://github.com/ghigo/optimizely-singleton#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "devDependencies": {
+    "webpack": "~2.4.1",
+    "babel-core": "~6.24.1",
+    "babel-loader": "~6.4.1",
+    "babel-preset-stage-0": "~6.24.1"
+  }
+}
