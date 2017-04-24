@@ -1,7 +1,7 @@
 optimizely-singleton provides an easy way to setup and import an optimizely client instance without having to worry about instantiating it multiple times.
 
 ## Install
-todo
+```npm i optimizely-singleton```
 
 ## How to setup
 Create a file `optimizely-setup.js` where you can define your own settings for Optimizely:
