@@ -9,7 +9,10 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loaders: 'babel-loader'
+      loaders: 'babel-loader',
+      options: {
+        presets: ['es2015']
+      }
     }]
   },
   output: {

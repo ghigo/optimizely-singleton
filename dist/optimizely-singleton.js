@@ -7294,86 +7294,97 @@ function xhrRequest (url, opt, cb) {
 
 /***/ }),
 /* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_optimizely_client_sdk__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_optimizely_client_sdk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_optimizely_client_sdk__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_xhr_request__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_xhr_request___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_xhr_request__);
-// get rid of import/export -> require + module export
-// test
-// pass fake optimizely object and check the method is proxied
-// readme:
-// usage example, talk about OPTIMIZELY_IS_FETCHING_DATA
-// "works in browser and node"
-
-// const optimizely = require('optimizely-client-sdk')
-
-// const request = require('xhr-request')
 
 
-const OPTIMIZELY_IS_FETCHING_DATA = 'OPTIMIZELY_IS_FETCHING_DATA'
-/* harmony export (immutable) */ __webpack_exports__["OPTIMIZELY_IS_FETCHING_DATA"] = OPTIMIZELY_IS_FETCHING_DATA;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.OPTIMIZELY_IS_FETCHING = undefined;
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-class OptimizelySingleton {
+var _optimizelyClientSdk = __webpack_require__(54);
 
-  constructor (params) {
+var _optimizelyClientSdk2 = _interopRequireDefault(_optimizelyClientSdk);
+
+var _xhrRequest = __webpack_require__(55);
+
+var _xhrRequest2 = _interopRequireDefault(_xhrRequest);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var OPTIMIZELY_IS_FETCHING = exports.OPTIMIZELY_IS_FETCHING = 'OPTIMIZELY_IS_FETCHING';
+
+var OptimizelySingleton = function () {
+  function OptimizelySingleton(params) {
+    _classCallCheck(this, OptimizelySingleton);
+
     if (this.instance) {
-      return this.instance
+      return this.instance;
     }
 
-    this.params = params
-    this.instance = this
+    this.params = params;
+    this.instance = this;
 
-    this.fetchData()
+    this.fetchData();
   }
 
-  fetchData () {
-    __WEBPACK_IMPORTED_MODULE_1_xhr_request___default()(this.params.url, {
-      json: true
-    }, (err, data) => {
-      if (err || !data) {
-        if (this.params.onDataFetchError) {
-          this.params.onDataFetchError(err)
-        }
-      }
+  _createClass(OptimizelySingleton, [{
+    key: 'fetchData',
+    value: function fetchData() {
+      var _this = this;
 
-      // Include any additional parameter that can be passed to `createInstance`
-      const instanceParams = Object.assign(
-        {},
-        {datafile: data},
-        this.params.createInstanceParams
-      )
-      let optimizelyInstance = __WEBPACK_IMPORTED_MODULE_0_optimizely_client_sdk___default.a.createInstance(instanceParams)
-
-      // Assign all the properties of optimizelyInstance to this, so that this object could be used as it was an optimizelyInstance
-      for (let key in optimizelyInstance) {
-        if (typeof optimizelyInstance[key] === 'function') {
-          this[key] = function () {
-            optimizelyInstance[key].apply(optimizelyInstance, arguments)
+      (0, _xhrRequest2.default)(this.params.url, {
+        json: true
+      }, function (err, data) {
+        if (err || !data) {
+          if (_this.params.onDataFetchError) {
+            _this.params.onDataFetchError(err);
           }
         }
-      }
 
-      // Invoke onDataFetchSuccess if any. This func could be used to use the optimizely instance and eventually expose it to the global `window` object. This could be useful in case integrations with Optimizely need so.
-      if (this.params.onDataFetchSuccess) {
-        this.params.onDataFetchSuccess(data, optimizelyInstance)
-      }
-    })
-  }
+        // Include any additional parameter that can be passed to `createInstance`
+        var instanceParams = Object.assign({}, { datafile: data }, _this.params.createInstanceParams);
+        var optimizelyInstance = _optimizelyClientSdk2.default.createInstance(instanceParams);
 
-  activate (experiment) {
-    // Return a constant that represents a loading state.
-    // If the data from Optimizely is not loaded yet, then this loading state is retuned. This method is replaced once the optimizelyInstance is created
-    return OPTIMIZELY_IS_FETCHING_DATA
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["default"] = OptimizelySingleton;
+        // Assign all the properties of optimizelyInstance to this, so that this object could be used as it was an optimizelyInstance
 
+        var _loop = function _loop(key) {
+          if (typeof optimizelyInstance[key] === 'function') {
+            _this[key] = function () {
+              optimizelyInstance[key].apply(optimizelyInstance, arguments);
+            };
+          }
+        };
 
+        for (var key in optimizelyInstance) {
+          _loop(key);
+        }
+
+        // Invoke onDataFetchSuccess if any. This func could be used to use the optimizely instance and eventually expose it to the global `window` object. This could be useful in case integrations with Optimizely need so.
+        if (_this.params.onDataFetchSuccess) {
+          _this.params.onDataFetchSuccess(data, optimizelyInstance);
+        }
+      });
+    }
+  }, {
+    key: 'activate',
+    value: function activate(experiment) {
+      // Return a constant that represents a loading state.
+      // If the data from Optimizely is not loaded yet, then this loading state is retuned. This method is replaced once the optimizelyInstance is created
+      return OPTIMIZELY_IS_FETCHING;
+    }
+  }]);
+
+  return OptimizelySingleton;
+}();
+
+exports.default = OptimizelySingleton;
 
 /***/ }),
 /* 57 */
