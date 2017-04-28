@@ -1,6 +1,6 @@
 {
   "name": "optimizely-singleton",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Singleton wrapper around the OptimizelyX JS SDK",
   "main": "./dist/optimizely-singleton.js",
   "scripts": {
