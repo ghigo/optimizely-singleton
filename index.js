@@ -38,7 +38,7 @@ export default class OptimizelySingleton {
       for (let key in optimizelyInstance) {
         if (typeof optimizelyInstance[key] === 'function') {
           this[key] = function () {
-            optimizelyInstance[key].apply(optimizelyInstance, arguments)
+            return optimizelyInstance[key].apply(optimizelyInstance, arguments)
           }
         }
       }
