@@ -6524,6 +6524,8 @@ var OptimizelySingleton = function () {
     }
 
     this.params = params;
+    // optimizelyInstanceExtender is an object of functions. If present each function will be executed after the corresponding optimizelyClientInstance method is invoked
+    this.params.optimizelyInstanceExtender = this.params.optimizelyInstanceExtender || {};
     this.instance = this;
 
     this.fetchData();
@@ -6551,8 +6553,12 @@ var OptimizelySingleton = function () {
 
         var _loop = function _loop(key) {
           if (typeof optimizelyInstance[key] === 'function') {
+            var optimizelyInstanceExtender = typeof _this.params.optimizelyInstanceExtender[key] === 'function' ? _this.params.optimizelyInstanceExtender[key] : function () {};
             _this[key] = function () {
-              return optimizelyInstance[key].apply(optimizelyInstance, arguments);
+              var variation = optimizelyInstance[key].apply(optimizelyInstance, arguments);
+              // Invoke the function extender if specified in params.optimizelyInstanceExtender
+              optimizelyInstanceExtender(variation, arguments);
+              return variation;
             };
           }
         };
