@@ -11,6 +11,8 @@ export default class OptimizelySingleton {
     }
 
     this.params = params
+    // optimizelyInstanceExtender is an object of functions. If present each function will be executed after the corresponding optimizelyClientInstance method is invoked
+    this.params.optimizelyInstanceExtender = this.params.optimizelyInstanceExtender || {}
     this.instance = this
 
     this.fetchData()
@@ -37,8 +39,12 @@ export default class OptimizelySingleton {
       // Assign all the properties of optimizelyInstance to this, so that this object could be used as it was an optimizelyInstance
       for (let key in optimizelyInstance) {
         if (typeof optimizelyInstance[key] === 'function') {
+          const optimizelyInstanceExtender = typeof this.params.optimizelyInstanceExtender[key] === 'function' ? this.params.optimizelyInstanceExtender[key] : () => {}
           this[key] = function () {
-            return optimizelyInstance[key].apply(optimizelyInstance, arguments)
+            const variation = optimizelyInstance[key].apply(optimizelyInstance, arguments)
+            // Invoke the function extender if specified in params.optimizelyInstanceExtender
+            optimizelyInstanceExtender(variation, arguments)
+            return variation
           }
         }
       }
