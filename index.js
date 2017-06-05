@@ -3,12 +3,13 @@ import request from 'xhr-request'
 
 export const OPTIMIZELY_IS_FETCHING = 'OPTIMIZELY_IS_FETCHING'
 
-const OptimizelySingleton = (function () {
+const OptimizelySingleton = () => {
   // The singleton instance
   let instance
 
   // List of callbacks to be invoked when data is fetched and ready
   let callbacks = []
+
   // Default instance returned while waiting for the optimizely data to be fetched
   const defaultInstance = {
     activate: (experimentName, userId, userAttributes, callback) => {
@@ -53,7 +54,6 @@ const OptimizelySingleton = (function () {
           instanceParams.onDataFetchError(err)
         }
       } else {
-        // save data in local storage
         createOptimizelyInstance(data)
       }
     })
@@ -93,7 +93,7 @@ const OptimizelySingleton = (function () {
     // Invoke all the callbacks passing a reference to the instance
     if (callbacks.length) {
       for (let i = 0; i < callbacks.length; i++) {
-        callbacks[i](instance)
+        callbacks[i](null, instance)
       }
     }
   }
@@ -106,6 +106,6 @@ const OptimizelySingleton = (function () {
       return instance
     }
   }
-})()
+}
 
 export default OptimizelySingleton
