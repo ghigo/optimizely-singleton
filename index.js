@@ -6,12 +6,20 @@ export const OPTIMIZELY_IS_FETCHING = 'OPTIMIZELY_IS_FETCHING'
 const OptimizelySingleton = (function () {
   // The singleton instance
   let instance
+
+  // List of callbacks to be invoked when data is fetched and ready
+  let callbacks = []
   // Default instance returned while waiting for the optimizely data to be fetched
   const defaultInstance = {
     activate: (experimentName, userId, userAttributes, callback) => {
+      // If this function is executed we know that the optimizely data is not ready yet and the OptimizelyInstance was not created yet, otherwise this function would have been overridden in the `createOptimizelyInstance` method.
+      // If a callback is passed, then let's append it to the `callbacks` array so that it can be invoked once the data is fetched and the optimizelyInstance is ready.
+      if (callback) {
+        callbacks.push(callback)
+      }
+
       // Return a constant that represents a loading state.
       // If the data from Optimizely is not loaded yet, then this loading state is retuned. This method is replaced once the optimizelyInstance is created
-      // todo:marco add callback to an array of callbacks to invoke when fetchData is done
       return OPTIMIZELY_IS_FETCHING
     }
   }
@@ -80,6 +88,13 @@ const OptimizelySingleton = (function () {
     // Invoke onDataFetchSuccess if any. This func could be used to use the optimizely instance and eventually expose it to the global `window` object. This could be useful in case integrations with Optimizely need so.
     if (instanceParams.onDataFetchSuccess) {
       instanceParams.onDataFetchSuccess(data, optimizelyInstance, instance)
+    }
+
+    // Invoke all the callbacks passing a reference to the instance
+    if (callbacks.length) {
+      for (let i = 0; i < callbacks.length; i++) {
+        callbacks[i](instance)
+      }
     }
   }
 
