@@ -2,9 +2,11 @@
   "name": "optimizely-singleton",
   "version": "2.0.0",
   "description": "Singleton wrapper around the OptimizelyX JS SDK",
-  "main": "./dist/optimizely-singleton.js",
+  "main": "./dist/optimizely-singleton.min.js",
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec",
+    "webpack": "webpack",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",

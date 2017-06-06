@@ -2,7 +2,6 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    'optimizely-singleton': './index.js',
     'optimizely-singleton.min': './index.js'
   },
   module: {
