@@ -33,7 +33,7 @@
     "babel-preset-es2015": "~6.9.0"
   },
   "dependencies": {
-    "optimizely-client-sdk": "~1.3.5",
+    "optimizely-client-sdk": "~1.4.1",
     "xhr-request": "~1.0.1"
   }
 }
