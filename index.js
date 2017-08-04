@@ -36,9 +36,15 @@ const OptimizelySingleton = () => {
     instanceParams = params
     instanceParams.optimizelyInstanceExtender = instanceParams.optimizelyInstanceExtender || {}
 
-    fetchData()
+    instance = defaultInstance
 
-    return defaultInstance
+    if (instanceParams.data) {
+      createOptimizelyInstance(instanceParams.data)
+    } else {
+      fetchData()
+    }
+
+    return instance
   }
 
   /**
@@ -101,7 +107,7 @@ const OptimizelySingleton = () => {
   return {
     getInstance: function (params) {
       if (!instance) {
-        instance = createInstance(params)
+        createInstance(params)
       }
       return instance
     }
