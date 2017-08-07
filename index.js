@@ -36,9 +36,14 @@ const OptimizelySingleton = () => {
     instanceParams = params
     instanceParams.optimizelyInstanceExtender = instanceParams.optimizelyInstanceExtender || {}
 
-    fetchData()
+    // A default instance is needed in order to override some of its methods later
+    instance = defaultInstance
 
-    return defaultInstance
+    if (instanceParams.data) {
+      createOptimizelyInstance(instanceParams.data)
+    } else {
+      fetchData()
+    }
   }
 
   /**
@@ -101,7 +106,7 @@ const OptimizelySingleton = () => {
   return {
     getInstance: function (params) {
       if (!instance) {
-        instance = createInstance(params)
+        createInstance(params)
       }
       return instance
     }
